@@ -1,7 +1,8 @@
 const { response } = require("express");
 const { validationResult } = require("express-validator");
 const Usuario = require("../models/Usuario");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const { generarJWT } = require("../helpers/jwt");
 
 const crearUsuario = async (req, res = response) => {
   try {
@@ -15,8 +16,10 @@ const crearUsuario = async (req, res = response) => {
     const salt = bcrypt.genSaltSync();
     usuario.password = bcrypt.hashSync(password, salt);
     await usuario.save();
+    const token = await generarJWT(usuario.id);
     res.json({
-      usuario
+      usuario,
+      token
     });
   } catch (error) {
     console.log(error);

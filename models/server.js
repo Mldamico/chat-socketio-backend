@@ -31,6 +31,7 @@ class Server {
     this.app.use(express.json());
 
     this.app.use("/api/login", require("../router/auth"));
+    this.app.use("/api/mensajes", require("../router/mensajes"));
   }
 
   // Esta configuración se puede tener aquí o como propieda de clase

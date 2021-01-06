@@ -29,6 +29,7 @@ class Sockets {
       socket.on("mensaje-personal", async payload => {
         const mensaje = await grabarMensaje(payload);
         this.io.to(payload.para).emit("mensaje-personal", mensaje);
+        this.io.to(payload.de).emit("mensaje-personal", mensaje);
       });
       socket.on("disconnect", async () => {
         await usuarioDesconectado(uid);

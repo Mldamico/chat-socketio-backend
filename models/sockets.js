@@ -21,8 +21,13 @@ class Sockets {
         return socket.disconnect();
       }
       await usuarioConectado(uid);
+      socket.join(uid);
 
       this.io.emit("lista-usuarios", await getUsuarios());
+
+      socket.on("mensaje-personal", payload => {
+        console.log(payload);
+      });
       socket.on("disconnect", async () => {
         await usuarioDesconectado(uid);
         this.io.emit("lista-usuarios", await getUsuarios());
